@@ -1,4 +1,4 @@
-package by.tms.socialprojectc38onl.Filter;
+package by.tms.socialprojectc38onl.web.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
