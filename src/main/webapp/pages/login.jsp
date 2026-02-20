@@ -28,6 +28,7 @@
         </c:if>
         <div class="col-3">
             <form action="/login" method="post">
+                <div class="mb-2 fs-4 fw-semibold">Login</div>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
