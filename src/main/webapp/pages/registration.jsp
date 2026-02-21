@@ -14,25 +14,27 @@
     <title>Registratoin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
 </head>
-<body>
-<div class="container">
-    <div class="row justify-content-center">
-        <c:if test="${message!=null}">
-            <c:choose>
-                <c:when test="${isCreated}">
-                    <div class="alert alert-success" role="alert">
-                        ${message}
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="alert alert-warning" role="alert">
-                        ${message}
-                    </div>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-        <div class="col-3">
+<body class="min-vh-100 d-flex flex-column">
+    <jsp:include page="../components/header.jsp"/>
+    <div  class="container col-12 col-sm-10 col-md-8 col-xl-4 flex-grow-1 d-flex flex-column justify-content-center">
+        <div class="row justify-content-center">
+            <c:if test="${message!=null}">
+                <c:choose>
+                    <c:when test="${isCreated}">
+                        <div class="alert alert-success" role="alert">
+                                ${message}
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="alert alert-warning" role="alert">
+                                ${message}
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+            <h2 class="mb-2 fs-4 fw-semibold">Sign up</h2>
             <form action="/registration" method="post">
                 <div class="mb-3">
                     <label for="exampleInputNickname" class="form-label">Nickname</label>
@@ -61,6 +63,5 @@
             </form>
         </div>
     </div>
-</div>
 </body>
 </html>
