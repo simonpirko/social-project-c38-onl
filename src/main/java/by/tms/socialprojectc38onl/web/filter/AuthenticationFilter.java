@@ -16,7 +16,7 @@ public class AuthenticationFilter implements Filter {
     private static final Set<String> PUBLIC_PATHS = Set.of(
             "/",
             "/login",
-            "/register",
+            "/registration",
             "/users",
             "/posts"
     );
