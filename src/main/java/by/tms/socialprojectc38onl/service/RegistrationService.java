@@ -22,16 +22,22 @@ public class RegistrationService {
                 || registrationRequest.getRepeatPassword().isEmpty()) {
             registrationResult.setSuccess(false);
             registrationResult.setMessage("Fields are required");
+
+            return registrationResult;
         }
 
         if (EmailValidator.isValidEmail(registrationRequest.getEmail())) {
             registrationResult.setSuccess(false);
             registrationResult.setMessage("Email is not valid");
+
+            return registrationResult;
         }
 
         if (registrationRequest.getPassword().length() < PASSWORD_LENGTH) {
             registrationResult.setSuccess(false);
-            registrationResult.setMessage("Fields are required");
+            registrationResult.setMessage("The password must be at least 6 characters long.");
+
+            return registrationResult;
         }
 
         if (!Objects.equals(registrationRequest.getPassword(), registrationRequest.getRepeatPassword())) {
