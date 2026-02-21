@@ -22,10 +22,10 @@
       <div class="d-flex gap-2">
         <c:if test="${sessionScope.account == null}">
           <a href="/login" class="btn btn-outline-light d-flex gap-1 align-items-center">
-            Login
+            Sign in
           </a>
-          <a href="/register" class="btn btn-outline-light d-flex gap-1 align-items-center">
-            Register
+          <a href="/registration" class="btn btn-outline-light d-flex gap-1 align-items-center">
+            Sign up
           </a>
         </c:if>
         <c:if test="${sessionScope.account != null}">
