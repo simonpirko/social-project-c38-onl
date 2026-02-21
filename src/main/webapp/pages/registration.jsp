@@ -38,20 +38,20 @@
             <form action="/registration" method="post">
                 <div class="mb-3">
                     <label for="exampleInputNickname" class="form-label">Nickname</label>
-                    <input type="text" name="text" class="form-control" id="exampleInputNickname">
+                    <input type="text" name="nickname" class="form-control" id="exampleInputNickname" placeholder="Enter your nickname">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                           aria-describedby="emailHelp">
+                           aria-describedby="emailHelp" placeholder="Enter your email">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword">
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="Enter your password">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputRepeatPassword" class="form-label">Repeat password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputRepeatPassword">
+                    <input type="password" name="repeatPassword" class="form-control" id="exampleInputRepeatPassword" placeholder="Repeat your nickname">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Registration</button>
                 <div class="text-center mt-3">
