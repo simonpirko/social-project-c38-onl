@@ -36,7 +36,7 @@ public class DAOAccounts {
             throw new RuntimeException(e);
         }
     }
-
+  
     public Optional<Account> findByEmail(String email) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement
