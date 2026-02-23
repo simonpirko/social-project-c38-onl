@@ -16,7 +16,8 @@ public class AuthenticationFilter implements Filter {
             "/login",
             "/registration",
             "/users",
-            "/posts"
+            "/posts",
+            "/account"
     );
 
     @Override
