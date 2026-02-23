@@ -10,9 +10,9 @@ public class PgConnection {
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(
-                    ApplicationProperties.get("database.url"),
-                    ApplicationProperties.get("database.username"),
-                    ApplicationProperties.get("database.password")
+                    ApplicationProperties.get("datasource.url"),
+                    ApplicationProperties.get("datasource.username"),
+                    ApplicationProperties.get("datasource.password")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

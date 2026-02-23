@@ -11,8 +11,6 @@ import java.util.Set;
 
 @WebFilter("/*")
 public class AuthenticationFilter implements Filter {
-
-    // Публичные пути — доступны всем, включая гостей
     private static final Set<String> PUBLIC_PATHS = Set.of(
             "/",
             "/login",
