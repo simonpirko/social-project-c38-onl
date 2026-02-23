@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class DAOAccounts {
-
     private static DAOAccounts INSTANCE;
 
     private DAOAccounts() {
@@ -20,6 +19,7 @@ public class DAOAccounts {
         if (INSTANCE == null) {
             INSTANCE = new DAOAccounts();
         }
+
         return INSTANCE;
     }
 
@@ -36,12 +36,11 @@ public class DAOAccounts {
             throw new RuntimeException(e);
         }
     }
-
-
+  
     public Optional<Account> findByEmail(String email) {
         try (Connection connection = PgConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM account WHERE email = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM accounts WHERE email = ?");
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
 
