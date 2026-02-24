@@ -1,4 +1,4 @@
-package by.tms.socialprojectc38onl.servlets;
+package by.tms.socialprojectc38onl.web.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
