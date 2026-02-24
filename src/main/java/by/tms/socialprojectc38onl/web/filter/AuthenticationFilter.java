@@ -17,6 +17,7 @@ public class AuthenticationFilter implements Filter {
             "/registration",
             "/users",
             "/posts",
+            "/post/create",
             "/account"
     );
 
