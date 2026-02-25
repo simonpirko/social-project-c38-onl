@@ -37,7 +37,6 @@ public class CommentsDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public Optional<Comment> findById(Long id) {
