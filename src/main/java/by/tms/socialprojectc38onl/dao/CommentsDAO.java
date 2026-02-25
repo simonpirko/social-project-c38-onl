@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DAOComments {
-    private static DAOComments INSTANCE;
+public class CommentsDAO {
+    private static CommentsDAO INSTANCE;
 
-    private DAOComments() {
+    private CommentsDAO() {
     }
 
-    public static DAOComments getInstance() {
+    public static CommentsDAO getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new DAOComments();
+            INSTANCE = new CommentsDAO();
         }
 
         return INSTANCE;
@@ -69,7 +69,7 @@ public class DAOComments {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement
                     ("SELECT id, account_id, post_id, text, created_at " +
-                            "FROM post_comments WHERE post_id = ? ORDER BY created_at ASC");
+                            "FROM post_comments WHERE post_id = ?");
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
