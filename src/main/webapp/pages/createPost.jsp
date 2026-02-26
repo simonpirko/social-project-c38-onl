@@ -9,6 +9,11 @@
 </head>
 <body>
 <div class="container mt-5">
+    <c:if test="${isCreated}">
+        <div class="alert alert-warning" role="alert">
+                ${message}
+        </div>
+    </c:if>
     <h2 class="mb-4 text-center">Create a post</h2>
     <form action="/post/create" method="post" class="border p-4 rounded bg-light">
         <div class="mb-3">
