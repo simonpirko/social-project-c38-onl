@@ -47,6 +47,7 @@ public class DAOAccounts {
             if (resultSet.next()) {
                 Account account = new Account();
 
+                account.setId(resultSet.getInt("id"));
                 account.setEmail(resultSet.getString("email"));
                 account.setNickname(resultSet.getString("nickname"));
                 account.setPassword(resultSet.getString("password"));

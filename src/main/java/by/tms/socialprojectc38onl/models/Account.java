@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+    private int id;
     private String nickname;
     private String email;
     private String password;
