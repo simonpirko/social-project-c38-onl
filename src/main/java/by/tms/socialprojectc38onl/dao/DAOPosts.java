@@ -24,7 +24,7 @@ public class DAOPosts {
         return INSTANCE;
     }
 
-    public void save(Post post) throws SQLException {
+    public void save(Post post) {
         try (Connection connection = PgConnection.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO posts(title, description, account_id, images) VALUES (?,?,?,?)");
