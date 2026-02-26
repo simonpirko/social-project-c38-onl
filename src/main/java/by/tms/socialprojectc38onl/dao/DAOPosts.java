@@ -32,6 +32,7 @@ public class DAOPosts {
             preparedStatement.setString(2, post.getDescription());
             preparedStatement.setInt(3, post.getAccountID());
             preparedStatement.setString(4, post.getImages());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
