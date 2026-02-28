@@ -15,7 +15,6 @@ public class Listener implements ServletContextListener {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
         Flyway load = Flyway
                 .configure()
                 .dataSource(
