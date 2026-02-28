@@ -18,7 +18,8 @@ public class AuthenticationFilter implements Filter {
             "/registration",
             "/users",
             "/posts",
-            "/account"
+            "/account",
+            "/post"
     );
 
     @Override
@@ -31,6 +32,7 @@ public class AuthenticationFilter implements Filter {
 
         boolean isLoggedIn = Objects.nonNull(session) && session.getAttribute("account") != null;
         boolean isAuthPath = "/login".equals(path) || "/register".equals(path);
+
 
         if (isLoggedIn && isAuthPath) {
             res.sendRedirect(req.getContextPath() + "/home");
