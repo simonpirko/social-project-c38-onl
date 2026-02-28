@@ -15,5 +15,6 @@ public class Post {
     private String description;
     private Date createAt;
     private int accountID;
+    private Account account;
     private String images;
 }
