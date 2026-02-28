@@ -21,7 +21,6 @@
 <jsp:include page="../components/header.jsp"/>
 <div class="py-5 container col-12 flex-grow-1 d-flex flex-column justify-content-center">
     <h1 class="h1">Posts</h1>
-
     <form method="post" action="/" class="mt-3 mb-2">
         <div class="input-group ">
             <span class="input-group-text" id="inputGroup-sizing-default"><i class="bi bi-search"></i></span>
@@ -31,14 +30,10 @@
         </div>
     </form>
     <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <c:forEach items="${posts}" var="post">
-            <div class="col">
-                <c:set var="post" value="${post}" scope="request" />
-                <jsp:include page="../components/post.jsp"/>
-            </div>
-        </c:forEach>
-
     </div>
+    <span style="font-size: 24px; font-weight: bold;">
+    Посты по запросу ${find} не найдены
+</span>
 </div>
 </body>
 </html>
