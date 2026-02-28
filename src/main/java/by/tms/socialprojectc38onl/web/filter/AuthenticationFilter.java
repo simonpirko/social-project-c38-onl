@@ -30,7 +30,10 @@ public class AuthenticationFilter implements Filter {
         String path = req.getServletPath();
         HttpSession session = req.getSession(false);
 
-        if (isLoggedIn && ("/login".equals(path) || "/registration".equals(path))) {
+        boolean isLoggedIn = session != null && session.getAttribute("users") != null;
+
+
+        if (isLoggedIn && ("/login".equals(path) || "/register".equals(path))) {
             res.sendRedirect(req.getContextPath() + "/home");
             return;
         }
