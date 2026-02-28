@@ -15,7 +15,7 @@
         </div>
     </c:if>
     <h2 class="mb-4 text-center">Create a post</h2>
-    <form action="/post/create" method="post" class="border p-4 rounded bg-light">
+    <form action="/posts/create" method="post" class="border p-4 rounded bg-light">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
