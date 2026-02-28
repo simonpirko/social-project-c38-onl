@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 
 @WebFilter("/*")
@@ -28,15 +29,15 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String path = req.getServletPath();
         HttpSession session = req.getSession(false);
-        boolean isLoggedIn = session != null && session.getAttribute("users") != null;
 
         if (isLoggedIn && ("/login".equals(path) || "/registration".equals(path))) {
             res.sendRedirect(req.getContextPath() + "/home");
             return;
         }
+
         boolean isPublic = PUBLIC_PATHS.contains(path);
 
-        if (!isPublic) {
+        if (!isPublic && !isLoggedIn) {
             res.sendRedirect(req.getContextPath() + "/login");
             return;
         }
