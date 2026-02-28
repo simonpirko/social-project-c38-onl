@@ -24,7 +24,7 @@ public class DAOPosts {
         return INSTANCE;
     }
 
-    public void save(Post post) throws SQLException {
+    public void save(Post post) {
         try (Connection connection = PgConnection.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO posts(title, description, account_id, images) VALUES (?,?,?,?)");
@@ -32,6 +32,7 @@ public class DAOPosts {
             preparedStatement.setString(2, post.getDescription());
             preparedStatement.setInt(3, post.getAccountID());
             preparedStatement.setString(4, post.getImages());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
