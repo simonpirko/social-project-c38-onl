@@ -10,9 +10,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
-    private Long id;
-    private Long accountId;
-    private Long postId;
+    private int id;
+    private int accountId;
+    private int postId;
     private String text;
     private Timestamp createdAt;
 }
