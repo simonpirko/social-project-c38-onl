@@ -18,27 +18,27 @@
           integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
 </head>
 <body class="min-vh-100 d-flex flex-column">
-<jsp:include page="../components/header.jsp"/>
-<div class="py-5 container col-12 flex-grow-1 d-flex flex-column justify-content-center">
-    <h1 class="h1">Posts</h1>
+    <jsp:include page="../components/header.jsp"/>
+    <div class="py-5 container col-12 flex-grow-1 d-flex flex-column">
+        <h1 class="h1">Posts</h1>
 
-    <form method="post" action="/" class="mt-3 mb-2">
-        <div class="input-group ">
-            <span class="input-group-text" id="inputGroup-sizing-default"><i class="bi bi-search"></i></span>
-            <input type="text" name="search" class="form-control" aria-label="Sizing example input"
-                   aria-describedby="inputGroup-sizing-default" placeholder="Search">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
-        </div>
-    </form>
-    <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <c:forEach items="${posts}" var="post">
-            <div class="col">
-                <c:set var="post" value="${post}" scope="request" />
-                <jsp:include page="../components/post.jsp"/>
+        <form method="post" action="/" class="mt-3 mb-2">
+            <div class="input-group ">
+                <span class="input-group-text" id="inputGroup-sizing-default"><i class="bi bi-search"></i></span>
+                <input type="text" name="search" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" placeholder="Search">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
             </div>
-        </c:forEach>
+        </form>
+        <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <c:forEach items="${posts}" var="post">
+                <div class="col">
+                    <c:set var="post" value="${post}" scope="request" />
+                    <jsp:include page="../components/post.jsp"/>
+                </div>
+            </c:forEach>
 
+        </div>
     </div>
-</div>
 </body>
 </html>
