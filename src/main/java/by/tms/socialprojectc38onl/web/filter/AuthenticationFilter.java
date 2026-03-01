@@ -19,7 +19,7 @@ public class AuthenticationFilter implements Filter {
             "/users",
             "/posts",
             "/account",
-            "/post"
+            "/posts/*"
     );
 
     @Override
@@ -35,11 +35,11 @@ public class AuthenticationFilter implements Filter {
 
 
         if (isLoggedIn && isAuthPath) {
-            res.sendRedirect(req.getContextPath() + "/home");
+            res.sendRedirect(req.getContextPath() + "/");
             return;
         }
 
-        boolean isPublic = PUBLIC_PATHS.contains(path);
+        boolean isPublic = isPublicPath(path);
 
         if (!isPublic && !isLoggedIn) {
             res.sendRedirect(req.getContextPath() + "/login");
@@ -47,6 +47,14 @@ public class AuthenticationFilter implements Filter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    private boolean isPublicPath(String path) {
+        if (PUBLIC_PATHS.contains(path)) {
+            return true;
+        }
+
+        return path.matches("^/posts/\\d+$");
     }
 }
 

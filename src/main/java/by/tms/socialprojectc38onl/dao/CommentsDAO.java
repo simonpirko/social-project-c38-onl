@@ -48,9 +48,9 @@ public class CommentsDAO {
 
             if (resultSet.next()) {
                 Comment comment = new Comment();
-                comment.setId(resultSet.getLong("id"));
-                comment.setAccountId(resultSet.getLong("account_id"));
-                comment.setPostId(resultSet.getLong("post_id"));
+                comment.setId(resultSet.getInt("id"));
+                comment.setAccountId(resultSet.getInt("account_id"));
+                comment.setPostId(resultSet.getInt("post_id"));
                 comment.setText(resultSet.getString("text"));
                 comment.setCreatedAt(resultSet.getTimestamp("created_at"));
 
@@ -73,9 +73,9 @@ public class CommentsDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Comment comment = new Comment();
-                comment.setId(resultSet.getLong("id"));
-                comment.setAccountId(resultSet.getLong("account_id"));
-                comment.setPostId(resultSet.getLong("post_id"));
+                comment.setId(resultSet.getInt("id"));
+                comment.setAccountId(resultSet.getInt("account_id"));
+                comment.setPostId(resultSet.getInt("post_id"));
                 comment.setText(resultSet.getString("text"));
                 comment.setCreatedAt(resultSet.getTimestamp("created_at"));
                 comments.add(comment);

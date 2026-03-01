@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-@WebServlet("/post/*")
+@WebServlet("/posts/*")
 public class PostPageServlet extends HttpServlet {
 
     private DAOPosts postsService = DAOPosts.getInstance();
