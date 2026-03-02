@@ -27,7 +27,7 @@ public class DAOPosts {
         return INSTANCE;
     }
 
-    public void save(Post post) throws SQLException {
+    public void save(Post post) {
         try (Connection connection = PgConnection.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO posts(title, description, account_id, images) VALUES (?,?,?,?)");
@@ -35,6 +35,7 @@ public class DAOPosts {
             preparedStatement.setString(2, post.getDescription());
             preparedStatement.setInt(3, post.getAccountID());
             preparedStatement.setString(4, post.getImages());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -75,4 +76,64 @@ public class DAOPosts {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Post> findAll() {
+        try (Connection connection = PgConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM posts join accounts on accounts.id = posts.account_id");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Post> posts = new ArrayList<>();
+            while (resultSet.next()) {
+                Post post = new Post();
+                Account account = new Account();
+                account.setId(resultSet.getInt("account_id"));
+                account.setPassword(resultSet.getString("password"));
+                account.setCreateAt(resultSet.getTimestamp("created_at"));
+                account.setNickname(resultSet.getString("nickname"));
+                account.setEmail(resultSet.getString("email"));
+                post.setId(resultSet.getInt("id"));
+                post.setTitle(resultSet.getString("title"));
+                post.setDescription(resultSet.getString("description"));
+                post.setCreateAt(resultSet.getTimestamp("created_at"));
+                post.setAccountID(resultSet.getInt("account_id"));
+                post.setImages(resultSet.getString("images"));
+                post.setAccount(account);
+                posts.add(post);
+            }
+            return posts;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public List<Post> findByTitle(String title) {
+        try (Connection connection = PgConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM posts join accounts on accounts.id = posts.account_id WHERE title = ?");
+            preparedStatement.setString(1, title);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Post> posts = new ArrayList<>();
+            Post post = new Post();
+            Account account = new Account();
+            while (resultSet.next()) {
+                account.setId(resultSet.getInt("account_id"));
+                account.setPassword(resultSet.getString("password"));
+                account.setCreateAt(resultSet.getTimestamp("created_at"));
+                account.setNickname(resultSet.getString("nickname"));
+                account.setEmail(resultSet.getString("email"));
+                post.setId(resultSet.getInt("id"));
+                post.setTitle(resultSet.getString("title"));
+                post.setDescription(resultSet.getString("description"));
+                post.setCreateAt(resultSet.getTimestamp("created_at"));
+                post.setAccountID(resultSet.getInt("account_id"));
+                post.setImages(resultSet.getString("images"));
+                post.setAccount(account);
+                posts.add(post);
+            }
+                return posts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

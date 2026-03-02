@@ -25,7 +25,7 @@ public class RegistrationService {
             return registrationResult;
         }
 
-        if (EmailValidator.isValidEmail(registrationRequest.getEmail())) {
+        if (!EmailValidator.isValidEmail(registrationRequest.getEmail())) {
             registrationResult.setSuccess(false);
             registrationResult.setMessage("Email is not valid");
           

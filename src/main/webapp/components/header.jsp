@@ -29,7 +29,7 @@
           </a>
         </c:if>
         <c:if test="${sessionScope.account != null}">
-          <a href="/post/create" class="btn btn-outline-success d-flex gap-1 align-items-center">
+          <a href="/posts/create" class="btn btn-outline-success d-flex gap-1 align-items-center">
             <i class="bi bi-plus-circle-dotted"></i>
             Create post
           </a>
@@ -37,7 +37,7 @@
             <i class="bi bi-person-square"></i>
             Profile
           </a>
-          <form method="post" action="/logout">
+          <form method="post" action="/logout" class="mb-0">
             <button class="btn btn-outline-light d-flex gap-1 align-items-center">
               <i class="bi bi-box-arrow-right"></i>
               Logout

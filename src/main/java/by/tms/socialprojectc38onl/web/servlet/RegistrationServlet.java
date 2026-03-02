@@ -27,7 +27,7 @@ public class RegistrationServlet extends HttpServlet {
 
         RegistrationService registrationService = new RegistrationService();
         RegistrationResultDTO registrationResultDTO = registrationService.register(
-                new RegistrationDTO(email, name, password, repeatPassword)
+                new RegistrationDTO(name, email, password, repeatPassword)
         );
 
         if (registrationResultDTO.isSuccess()) {
