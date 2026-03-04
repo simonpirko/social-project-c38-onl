@@ -14,7 +14,7 @@ public class PostService {
     private final DAOPosts postDAO;
     private static PostService INSTANCE;
 
-    public PostService() { this.postDAO = DAOPosts.getInstance(); }
+    private PostService() { this.postDAO = DAOPosts.getInstance(); }
 
     public static synchronized PostService getInstance() {
         if (Objects.isNull(INSTANCE)) {
@@ -41,32 +41,38 @@ public class PostService {
         return postDAO.findByTitle(title);
     }
 
-    public void createPost(String title, String description, List<String> img, Optional<Account> user) {
+    public String createPost(String title, String description, List<String> img, Optional<Account> user) {
 
         if (user.isEmpty()) {
             throw new CreatePostException("You are not authorized for this action");
         }
 
-        if(title.isEmpty() || description.isEmpty() || img.isEmpty()){
+        if (title.isEmpty() || description.isEmpty() || img.isEmpty()) {
             throw new CreatePostException("Fill in the title, description and upload at least one image");
         }
 
-        String images = "";
+        StringBuilder images = new StringBuilder();
 
-        for (String url : img){
-            if(!images.isEmpty()){
-                images += "|" + url;
-            } else {
-                images += url;
+        for (String url : img) {
+
+            if (url.isEmpty()) {
+                continue;
             }
+
+            if (images.isEmpty()) {
+                images.append(url);
+                continue;
+            }
+
+            images.append("|").append(url);
         }
 
         Post post = new Post();
         post.setTitle(title);
         post.setDescription(description);
         post.setAccountID(user.get().getId());
-        post.setImages(images);
+        post.setImages(images.toString());
 
-        postDAO.save(post);
+        return postDAO.save(post);
     }
 }
