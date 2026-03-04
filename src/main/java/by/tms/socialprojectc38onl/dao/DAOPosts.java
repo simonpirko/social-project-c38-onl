@@ -41,7 +41,7 @@ public class DAOPosts {
         }
     }
 
-    public Optional<Post> findById(int id) {
+    public Optional<Post> findById(Integer id) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT a.id AS post_id, a.created_at AS post_created_at, a.title, a.description, a.images, c.id AS comment_id, c.created_at AS comment_created_at, c.text FROM posts a JOIN post_comments c ON a.id = c.post_id WHERE a.id = ?");
