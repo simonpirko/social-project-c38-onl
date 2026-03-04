@@ -106,6 +106,31 @@ public class DAOPosts {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Post> findByAccountId(int accountId) {
+        List<Post> posts = new ArrayList<>();
+        String sql = "SELECT * FROM posts WHERE account_id = ?";
+
+        try (Connection connection = PgConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, accountId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Post post = new Post();
+                post.setId(resultSet.getInt("id"));
+                post.setTitle(resultSet.getString("title"));
+                post.setDescription(resultSet.getString("description"));
+                post.setImages(resultSet.getString("images"));
+                post.setAccountID(resultSet.getInt("account_id"));
+                posts.add(post);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return posts;
+    }
+
     public List<Post> findByTitle(String title) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -134,6 +159,21 @@ public class DAOPosts {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int countByAccountId(int accountId) {
+        String sql = "SELECT COUNT(*) FROM posts WHERE account_id = ?";
+        try (Connection connection = PgConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, accountId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
 }
