@@ -19,39 +19,30 @@
             </div>
         </div>
         <div class="col ps-3">
-            <h2>Nickname</h2>
+            <h2>${accountData.account().nickname}</h2>
             <div class="text-muted mb-2">
-                0 постов • 0 подписчиков • 0 подписок
+                ${accountData.postsCount()} постов
+                ${accountData.followersCount()} подписчиков
+                ${accountData.followingCount()} подписок
             </div>
             <a href="/profile/edit" class="btn btn-outline-primary">Подписаться</a>
         </div>
     </div>
 
     <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
-        <div class="col">
-            <jsp:include page="../components/post.jsp"/>
-        </div>
+        <c:forEach var="currentPost" items="${accountData.post()}">
+            <div class="col">
+                <jsp:include page="../components/post.jsp">
+                    <jsp:param name="postId" value="${currentPost.id}"/>
+                </jsp:include>
+            </div>
+        </c:forEach>
+
+        <c:if test="${empty accountData.post()}">
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">У пользователя пока нет публикаций</p>
+            </div>
+        </c:if>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

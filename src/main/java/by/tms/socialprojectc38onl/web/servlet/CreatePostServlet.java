@@ -36,7 +36,7 @@ public class CreatePostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            create.createPost(req.getParameter("title"),
+            String id = create.createPost(req.getParameter("title"),
                     req.getParameter("description"),
                     List.of(req.getParameter("img1"),
                             req.getParameter("img2"),
@@ -45,7 +45,7 @@ public class CreatePostServlet extends HttpServlet {
                             req.getParameter("img5")),
                     Optional.of((Account) req.getSession().getAttribute("account")));
 
-            req.getRequestDispatcher("/components/post.jsp").forward(req, resp);
+            resp.sendRedirect("/posts/" + id);
 
         } catch (CreatePostException e) {
             req.setAttribute("message", e.getMessage());
