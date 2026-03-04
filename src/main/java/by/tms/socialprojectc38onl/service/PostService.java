@@ -14,7 +14,7 @@ public class PostService {
     private final DAOPosts postDAO;
     private static PostService INSTANCE;
 
-    public PostService() { this.postDAO = DAOPosts.getInstance(); }
+    private PostService() { this.postDAO = DAOPosts.getInstance(); }
 
     public static synchronized PostService getInstance() {
         if (Objects.isNull(INSTANCE)) {
@@ -73,10 +73,6 @@ public class PostService {
         post.setAccountID(user.get().getId());
         post.setImages(images.toString());
 
-<<<<<<<< HEAD:src/main/java/by/tms/socialprojectc38onl/service/PostService.java
-        postDAO.save(post);
-========
-        return daoPosts.save(post);
->>>>>>>> master:src/main/java/by/tms/socialprojectc38onl/service/CreatePostService.java
+        return postDAO.save(post);
     }
 }
