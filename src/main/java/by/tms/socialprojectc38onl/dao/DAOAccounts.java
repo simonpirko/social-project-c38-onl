@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class DAOAccounts {
@@ -36,7 +37,34 @@ public class DAOAccounts {
             throw new RuntimeException(e);
         }
     }
-  
+    public Optional<Account> findById(Integer id) {
+        if (Objects.isNull(id)) {
+            return Optional.empty();
+        }
+
+        try (Connection connection = PgConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM accounts WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Account account = new Account();
+
+                account.setId(resultSet.getInt("id"));
+                account.setEmail(resultSet.getString("email"));
+                account.setNickname(resultSet.getString("nickname"));
+                account.setPassword(resultSet.getString("password"));
+                account.setCreateAt(resultSet.getTimestamp("created_at"));
+
+                return Optional.of(account);
+            }
+
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public Optional<Account> findByEmail(String email) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement
