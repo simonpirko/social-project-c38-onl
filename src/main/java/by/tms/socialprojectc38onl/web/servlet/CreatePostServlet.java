@@ -2,7 +2,7 @@ package by.tms.socialprojectc38onl.web.servlet;
 
 import by.tms.socialprojectc38onl.exception.CreatePostException;
 import by.tms.socialprojectc38onl.models.Account;
-import by.tms.socialprojectc38onl.service.CreatePostService;
+import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @WebServlet("/posts/create")
 public class CreatePostServlet extends HttpServlet {
-    final CreatePostService create = new CreatePostService();
+    final PostService create = PostService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

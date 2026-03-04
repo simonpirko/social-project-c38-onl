@@ -2,6 +2,7 @@ package by.tms.socialprojectc38onl.web.servlet;
 
 import by.tms.socialprojectc38onl.dao.DAOPosts;
 import by.tms.socialprojectc38onl.models.Post;
+import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,10 +13,10 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-@WebServlet("/posts/*")
+@WebServlet("/post/*")
 public class PostPageServlet extends HttpServlet {
 
-    private DAOPosts postsService = DAOPosts.getInstance();
+    private final PostService postsService = PostService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

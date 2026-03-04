@@ -44,4 +44,30 @@ public class SubscribeDAO {
             throw new RuntimeException("Error deleting subscription", e);
         }
     }
+
+    public int countFollowers(int userId) {
+        String sql = "SELECT COUNT(*) FROM subscriptions WHERE following_id = ?";
+        return getCount(userId, sql);
+    }
+
+    public int countFollowing(int userId) {
+        String sql = "SELECT COUNT(*) FROM subscriptions WHERE follower_id = ?";
+        return getCount(userId, sql);
+    }
+
+    private int getCount(int userId, String sql) {
+        try (Connection connection = PgConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, userId);
+            var resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error counting subscriptions", e);
+        }
+        return 0;
+    }
+
+
 }
