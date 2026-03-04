@@ -30,7 +30,7 @@
     </div>
 
     <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <c:forEach var="currentPost" items="${accountData.post()}">
+        <c:forEach var="currentPost" items="${accountData.userPosts()}">
             <div class="col">
                 <jsp:include page="../components/post.jsp">
                     <jsp:param name="postId" value="${currentPost.id}"/>
@@ -38,7 +38,7 @@
             </div>
         </c:forEach>
 
-        <c:if test="${empty accountData.post()}">
+        <c:if test="${empty accountData.userPosts()}">
             <div class="col-12 text-center py-5">
                 <p class="text-muted">У пользователя пока нет публикаций</p>
             </div>
