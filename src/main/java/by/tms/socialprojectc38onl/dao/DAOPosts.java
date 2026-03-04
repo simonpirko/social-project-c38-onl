@@ -113,9 +113,9 @@ public class DAOPosts {
             preparedStatement.setString(1, title);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Post> posts = new ArrayList<>();
-            Post post = new Post();
-            Account account = new Account();
             while (resultSet.next()) {
+                Post post = new Post();
+                Account account = new Account();
                 account.setId(resultSet.getInt("account_id"));
                 account.setPassword(resultSet.getString("password"));
                 account.setCreateAt(resultSet.getTimestamp("created_at"));
