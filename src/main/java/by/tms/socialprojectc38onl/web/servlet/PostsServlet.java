@@ -4,6 +4,7 @@ package by.tms.socialprojectc38onl.web.servlet;
 
 import by.tms.socialprojectc38onl.dao.DAOPosts;
 import by.tms.socialprojectc38onl.models.Post;
+import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,11 +18,11 @@ import java.util.List;
 @WebServlet("/")
 public class PostsServlet extends HttpServlet {
 
+    private final PostService postsService = PostService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Post> posts;
-        DAOPosts daoPosts = DAOPosts.getInstance();
-        posts = daoPosts.findAll();
+        posts = postsService.findAll();
         req.setAttribute("posts",posts);
         req.getRequestDispatcher("/pages/index.jsp").forward(req, resp);
     }
@@ -33,8 +34,7 @@ public class PostsServlet extends HttpServlet {
         }
         else{
            List<Post> posts;
-           DAOPosts daoPosts = DAOPosts.getInstance();
-           posts = daoPosts.findByTitle(find);
+           posts = postsService.findByTitle(find);
            if (posts==null || posts.isEmpty()){
                req.setAttribute("find",find);
                getServletContext().getRequestDispatcher("/pages/postsNotFound.jsp").forward(req, resp);
