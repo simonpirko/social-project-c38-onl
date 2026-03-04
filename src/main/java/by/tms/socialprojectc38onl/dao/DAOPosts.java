@@ -60,7 +60,7 @@ public class DAOPosts {
 
                 while (resultSet.next()) {
                     Comment comment = new Comment();
-                    comment.setId(resultSet.getLong("comment_id"));
+                    comment.setId(resultSet.getInt("comment_id"));
                     comment.setText(resultSet.getString("text"));
                     comment.setCreatedAt(resultSet.getTimestamp("comment_created_at"));
                     comments.add(comment);
