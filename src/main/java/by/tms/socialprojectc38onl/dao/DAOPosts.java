@@ -52,7 +52,13 @@ public class DAOPosts {
     public Optional<Post> findById(Integer id) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT a.id AS post_id, a.created_at AS post_created_at, a.title, a.description, a.images, acc.id AS account_id, acc.nickname, acc.email, c.id AS comment_id, c.created_at AS comment_created_at, c.text FROM posts a JOIN post_comments c ON a.id = c.post_id  JOIN accounts acc ON acc.id = a.account_id WHERE a.id = ?");
+                    "SELECT a.id AS post_id, a.created_at AS post_created_at, a.title, a.description, a.images, " +
+                            "acc.id AS account_id, acc.nickname, acc.email, " +
+                            "c.id AS comment_id, c.created_at AS comment_created_at, c.text " +
+                            "FROM posts a " +
+                            "LEFT JOIN post_comments c ON a.id = c.post_id  " +
+                            "JOIN accounts acc ON acc.id = a.account_id " +
+                            "WHERE a.id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -195,5 +201,4 @@ public class DAOPosts {
         }
         return 0;
     }
-
 }
