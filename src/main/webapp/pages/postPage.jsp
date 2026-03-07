@@ -60,7 +60,7 @@
                         <div class="col">
                             <h5 class="mb-1 fw-bold">${fn:escapeXml(post.title)}</h5>
                             <div class="d-flex align-items-center gap-2">
-                                <span class="text-secondary">Author ID: ${post.accountID}</span>
+                                <a href="/account/${post.account.id}" class="text-secondary">${post.account.nickname}</a>
                                 <span class="badge bg-light text-dark border">${post.createAt}</span>
                                 <button class="btn btn-outline-primary btn-sm">Subsribe</button>
                             </div>
