@@ -19,7 +19,7 @@ public class AuthenticationFilter implements Filter {
             "/users",
             "/posts",
             "/account",
-            "/posts/*"
+            "/post/*"
     );
 
     @Override
@@ -27,7 +27,15 @@ public class AuthenticationFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        String path = req.getServletPath();
+        String servletPath = req.getServletPath();
+        String pathInfo = req.getPathInfo();
+
+        String path = servletPath;
+
+        if (!Objects.isNull(pathInfo)) {
+            path += pathInfo;
+        }
+
         HttpSession session = req.getSession(false);
 
         boolean isLoggedIn = Objects.nonNull(session) && session.getAttribute("account") != null;
@@ -54,7 +62,7 @@ public class AuthenticationFilter implements Filter {
             return true;
         }
 
-        return path.matches("^/posts/\\d+$");
+        return path.matches("^/post/\\d+$");
     }
 }
 
