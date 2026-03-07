@@ -15,4 +15,5 @@ public class Comment {
     private int postId;
     private String text;
     private Timestamp createdAt;
+    private Account account;
 }
