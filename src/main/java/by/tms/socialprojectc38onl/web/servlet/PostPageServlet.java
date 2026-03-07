@@ -1,6 +1,5 @@
 package by.tms.socialprojectc38onl.web.servlet;
 
-import by.tms.socialprojectc38onl.dao.DAOPosts;
 import by.tms.socialprojectc38onl.models.Post;
 import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
