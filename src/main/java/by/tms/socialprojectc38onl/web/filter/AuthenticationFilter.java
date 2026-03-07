@@ -58,6 +58,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean isPublicPath(String path) {
+        System.out.println(path);
         if (PUBLIC_PATHS.contains(path)) {
             return true;
         }
