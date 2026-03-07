@@ -5,7 +5,6 @@ import by.tms.socialprojectc38onl.exception.CreatePostException;
 import by.tms.socialprojectc38onl.models.Account;
 import by.tms.socialprojectc38onl.models.Post;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,8 +35,9 @@ public class PostService {
 
     public List<Post> findByTitle(String title) {
         if (Objects.isNull(title) || title.isBlank()) {
-            return Collections.emptyList();
+            return postDAO.findAll();
         }
+
         return postDAO.findByTitle(title);
     }
 

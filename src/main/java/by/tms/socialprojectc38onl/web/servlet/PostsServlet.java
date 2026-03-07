@@ -1,8 +1,6 @@
 package by.tms.socialprojectc38onl.web.servlet;
 
 
-
-import by.tms.socialprojectc38onl.dao.DAOPosts;
 import by.tms.socialprojectc38onl.models.Post;
 import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
@@ -12,36 +10,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/")
 public class PostsServlet extends HttpServlet {
-
     private final PostService postsService = PostService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Post> posts;
-        posts = postsService.findAll();
-        req.setAttribute("posts",posts);
-        req.getRequestDispatcher("/pages/index.jsp").forward(req, resp);
-    }
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String find = req.getParameter("search");
-        if(find==null){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        else{
-           List<Post> posts;
-           posts = postsService.findByTitle(find);
-           if (posts==null || posts.isEmpty()){
-               req.setAttribute("find",find);
-               getServletContext().getRequestDispatcher("/pages/postsNotFound.jsp").forward(req, resp);
-           }
-           else {
-            req.setAttribute("posts",posts);
-            getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);}
-        }
+        String findParam = req.getParameter("search");
+        List<Post> posts = postsService.findByTitle(findParam);
+
+        req.setAttribute("posts", posts);
+        req.setAttribute("find", findParam);
+
+        req.setAttribute("posts", posts);
+        getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);
     }
 }
