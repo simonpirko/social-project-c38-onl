@@ -6,6 +6,7 @@ import by.tms.socialprojectc38onl.exception.CreateCommentException;
 import by.tms.socialprojectc38onl.models.Account;
 import by.tms.socialprojectc38onl.models.Comment;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CommentService {
@@ -24,7 +25,6 @@ public class CommentService {
         return INSTANCE;
     }
 
-
     public void createComment(String text, Optional<Account> account, int postId) {
         if (text.isEmpty()) {
             throw new CreateCommentException("The content of comment is empty");
@@ -40,5 +40,9 @@ public class CommentService {
         comment.setAccountId(account.get().getId());
 
         commentsDAO.save(comment);
+    }
+
+    public List<Comment> findAllComments(int postId) {
+        return commentsDAO.findByPostId(postId);
     }
 }
