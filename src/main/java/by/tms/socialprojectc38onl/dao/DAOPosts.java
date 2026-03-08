@@ -85,10 +85,16 @@ public class DAOPosts {
         }
     }
 
-    public List<Post> findAll() {
+    public List<Post> findAll(int accountID) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM posts join accounts on accounts.id = posts.account_id");
+                    "SELECT a.*, p.*, count(pl.post_id) as likes_count, " +
+                            "CASE WHEN exists(SELECT 1 From post_likes pl2 WHERE pl2.post_id = p.id and pl2.account_id = ?)" +
+                            "Then true else false end as is_liked " +
+                            "FROM accounts a join posts p on a.id = p.account_id " +
+                            "LEFT JOIN post_likes pl ON p.id = pl.post_id GROUP BY a.id, p.id;" );
+            preparedStatement.setInt(1, accountID);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Post> posts = new ArrayList<>();
             while (resultSet.next()) {
@@ -107,8 +113,9 @@ public class DAOPosts {
                 post.setCreateAt(resultSet.getTimestamp("created_at"));
                 post.setAccountID(resultSet.getInt("account_id"));
                 post.setImages(resultSet.getString("images"));
+                post.setLikes_count(resultSet.getInt("likes_count"));
+                post.setYourLike(resultSet.getBoolean("is_liked"));
                 post.setAccount(account);
-
                 posts.add(post);
             }
             return posts;
@@ -142,11 +149,29 @@ public class DAOPosts {
         return posts;
     }
 
-    public List<Post> findByTitle(String title) {
+    public List<Post> findByTitle(String title, int accountID) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM posts JOIN accounts ON accounts.id = posts.account_id WHERE title ILIKE '%' || ? || '%'");
-            preparedStatement.setString(1, title);
+                    "SELECT \n" +
+                            "    a.*, \n" +
+                            "    p.*, \n" +
+                            "    COUNT(pl.post_id) AS likes_count,\n" +
+                            "    CASE \n" +
+                            "        WHEN EXISTS(\n" +
+                            "            SELECT 1 \n" +
+                            "            FROM post_likes pl2 \n" +
+                            "            WHERE pl2.post_id = p.id \n" +
+                            "            AND pl2.account_id = ?\n" +
+                            "        ) THEN true \n" +
+                            "        ELSE false \n" +
+                            "    END AS is_liked\n" +
+                            "FROM accounts a \n" +
+                            "JOIN posts p ON a.id = p.account_id \n" +
+                            "LEFT JOIN post_likes pl ON p.id = pl.post_id \n" +
+                            "WHERE p.title ILIKE '%' || ? || '%'  -- WHERE перед GROUP BY\n" +
+                            "GROUP BY a.id, p.id;" );
+            preparedStatement.setInt(1, accountID);
+            preparedStatement.setString(2, title);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Post> posts = new ArrayList<>();
             while (resultSet.next()) {
@@ -164,8 +189,9 @@ public class DAOPosts {
                 post.setCreateAt(resultSet.getTimestamp("created_at"));
                 post.setAccountID(resultSet.getInt("account_id"));
                 post.setImages(resultSet.getString("images"));
+                post.setLikes_count(resultSet.getInt("likes_count"));
+                post.setYourLike(resultSet.getBoolean("is_liked"));
                 post.setAccount(account);
-
                 posts.add(post);
             }
 

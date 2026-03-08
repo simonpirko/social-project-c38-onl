@@ -2,7 +2,9 @@ package by.tms.socialprojectc38onl.web.servlet;
 
 
 
+import by.tms.socialprojectc38onl.dao.DAOAccounts;
 import by.tms.socialprojectc38onl.dao.DAOPosts;
+import by.tms.socialprojectc38onl.models.Account;
 import by.tms.socialprojectc38onl.models.Post;
 import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
@@ -10,9 +12,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/")
@@ -21,20 +25,25 @@ public class PostsServlet extends HttpServlet {
     private final PostService postsService = PostService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        DAOAccounts daoAccounts = DAOAccounts.getInstance();
         List<Post> posts;
-        posts = postsService.findAll();
+        posts = postsService.findAll(daoAccounts.getCurrID(session));
+
         req.setAttribute("posts",posts);
         req.getRequestDispatcher("/pages/index.jsp").forward(req, resp);
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        DAOAccounts daoAccounts = DAOAccounts.getInstance();
         String find = req.getParameter("search");
         if(find==null){
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         else{
            List<Post> posts;
-           posts = postsService.findByTitle(find);
+           posts = postsService.findByTitle(find, daoAccounts.getCurrID(session));
            if (posts==null || posts.isEmpty()){
                req.setAttribute("find",find);
                getServletContext().getRequestDispatcher("/pages/postsNotFound.jsp").forward(req, resp);

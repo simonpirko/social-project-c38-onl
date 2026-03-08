@@ -4,6 +4,7 @@ import by.tms.socialprojectc38onl.dao.DAOPosts;
 import by.tms.socialprojectc38onl.exception.CreatePostException;
 import by.tms.socialprojectc38onl.models.Account;
 import by.tms.socialprojectc38onl.models.Post;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,8 +24,8 @@ public class PostService {
         return INSTANCE;
     }
 
-    public List<Post> findAll() {
-        return postDAO.findAll();
+    public List<Post> findAll(int accountID) {
+        return postDAO.findAll(accountID);
     }
 
     public Optional<Post> findById(Integer id) {
@@ -34,11 +35,11 @@ public class PostService {
         return postDAO.findById(id);
     }
 
-    public List<Post> findByTitle(String title) {
+    public List<Post> findByTitle(String title, int accountID) {
         if (Objects.isNull(title) || title.isBlank()) {
             return Collections.emptyList();
         }
-        return postDAO.findByTitle(title);
+        return postDAO.findByTitle(title, accountID);
     }
 
     public String createPost(String title, String description, List<String> img, Optional<Account> user) {
@@ -74,5 +75,18 @@ public class PostService {
         post.setImages(images.toString());
 
         return postDAO.save(post);
+    }
+
+    public boolean isYorLike(HttpSession session){
+
+        if (session != null)
+        {
+            Account account = (Account) session.getAttribute("account");
+            int id = account.getId();
+
+        }
+
+        else return false;
+        return false;
     }
 }

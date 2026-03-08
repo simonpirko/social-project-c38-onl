@@ -4,8 +4,7 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">cale=1">
     <title>Пост</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -72,7 +71,7 @@
                     <div class="row align-items-center mt-2">
                         <form method="post" action="/post/like" class="w-auto row align-items-center mb-0" style="position: relative;">
                             <button class="btn w-auto text-danger"><i class="bi bi-heart-fill fs-5"></i></button>
-                            <span class="ps-0 w-auto text-secondary">12</span>
+                            <span class="ps-0 w-auto text-secondary">${post.likes_count}</span>
                         </form>
                         <div class="row text-secondary w-auto align-items-center">
                             <i class="w-auto bi bi-chat-fill fs-5"></i>
