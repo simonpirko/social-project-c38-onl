@@ -30,7 +30,7 @@
             <i class="bi bi-plus-circle-dotted"></i>
             Create post
           </a>
-          <a href="/profile" class="btn btn-outline-light d-flex gap-1 align-items-center">
+          <a href="/account" class="btn btn-outline-light d-flex gap-1 align-items-center">
             <i class="bi bi-person-square"></i>
             Profile
           </a>
