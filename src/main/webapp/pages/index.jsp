@@ -22,23 +22,32 @@
     <div class="py-5 container col-12 flex-grow-1 d-flex flex-column">
         <h1 class="h1">Posts</h1>
 
-        <form method="post" action="/" class="mt-3 mb-2">
+        <form method="get" action="/" class="mt-3 mb-2">
             <div class="input-group ">
                 <span class="input-group-text" id="inputGroup-sizing-default"><i class="bi bi-search"></i></span>
-                <input type="text" name="search" class="form-control" aria-label="Sizing example input"
+                <input type="text" value="${find}" name="search" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-default" placeholder="Search">
                 <button type="submit" class="btn btn-outline-primary">Search</button>
             </div>
         </form>
-        <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            <c:forEach items="${posts}" var="post">
-                <div class="col">
-                    <c:set var="post" value="${post}" scope="request" />
-                    <jsp:include page="../components/post.jsp"/>
-                </div>
-            </c:forEach>
 
-        </div>
+        <c:choose>
+            <c:when test="${empty posts}">
+                <span style="font-size: 24px; font-weight: bold;">
+                Посты по запросу "${find}" не найдены</span>
+            </c:when>
+            <c:otherwise>
+                <div class="mt-1 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                    <c:forEach items="${posts}" var="post">
+                        <div class="col">
+                            <c:set var="post" value="${post}" scope="request" />
+                            <jsp:include page="../components/post.jsp"/>
+                        </div>
+                    </c:forEach>
+
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 </body>
 </html>

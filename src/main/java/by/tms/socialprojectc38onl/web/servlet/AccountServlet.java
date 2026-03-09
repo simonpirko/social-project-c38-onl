@@ -1,7 +1,6 @@
 package by.tms.socialprojectc38onl.web.servlet;
 
 import by.tms.socialprojectc38onl.dto.AccountDataDTO;
-import by.tms.socialprojectc38onl.models.Account;
 import by.tms.socialprojectc38onl.service.AccountService;
 import by.tms.socialprojectc38onl.service.SubscribeService;
 import jakarta.servlet.ServletException;
@@ -13,17 +12,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-@WebServlet("/account")
+@WebServlet("/account/*")
 public class AccountServlet extends HttpServlet {
     private final AccountService accountService = AccountService.getInstance();
     private final SubscribeService subscribeService = SubscribeService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Account currentAccount = (Account) req.getSession().getAttribute("account");
+        String pathInfo = req.getPathInfo();
+        int accountId = 0;
 
-        if (Objects.isNull(currentAccount)) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
+        if (Objects.nonNull(pathInfo) && pathInfo.matches("/\\d+")) {
+            accountId = Integer.parseInt(pathInfo.substring(1));
         }
         Integer showingAccountId;
         Integer currentAccountId = currentAccount.getId();

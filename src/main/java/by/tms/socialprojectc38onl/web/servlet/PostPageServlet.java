@@ -1,7 +1,8 @@
 package by.tms.socialprojectc38onl.web.servlet;
 
-import by.tms.socialprojectc38onl.dao.DAOPosts;
+import by.tms.socialprojectc38onl.models.Comment;
 import by.tms.socialprojectc38onl.models.Post;
+import by.tms.socialprojectc38onl.service.CommentService;
 import by.tms.socialprojectc38onl.service.PostService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,13 +11,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@WebServlet("/post/*")
+@WebServlet("/posts/*")
 public class PostPageServlet extends HttpServlet {
 
     private final PostService postsService = PostService.getInstance();
+    private final CommentService commentService = CommentService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,6 +31,7 @@ public class PostPageServlet extends HttpServlet {
         }
 
         Optional<Post> postOptional = postsService.findById(postId);
+        List<Comment> comments = commentService.findAllComments(postId);
 
         if (postOptional.isEmpty()) {
             resp.setStatus(404);
@@ -35,6 +39,7 @@ public class PostPageServlet extends HttpServlet {
             return;
         }
 
+        req.setAttribute("comments", comments);
         req.setAttribute("post", postOptional.get());
         req.getRequestDispatcher("/pages/postPage.jsp").forward(req, resp);
     }

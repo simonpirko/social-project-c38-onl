@@ -18,7 +18,7 @@
         <h5 class="card-title mt-3">${post.title}</h5>
         <div class="d-flex row-gap-2">
             <p class="mb-0 card-text text-truncate text-dark pe-2">${post.description}</p>
-            <a href="/posts/${post.id}" class="flex-shrink-0 w-auto link-opacity-100">Read more</a>
+            <a href="/post/${post.id}" class="flex-shrink-0 w-auto link-opacity-100">Read more</a>
         </div>
         <div class="row align-items-center mt-2">
             <form method="post" action="/post/like" class="w-auto row align-items-center mb-0" style="position: relative;">
