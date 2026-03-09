@@ -22,10 +22,29 @@
             <h2>${accountData.account().nickname}</h2>
             <div class="text-muted mb-2">
                 ${accountData.postsCount()} постов
-                ${accountData.followersCount()} подписчиков
-                ${accountData.followingCount()} подписок
+                    <a href="/account/followers?id=${accountData.account().getId()}" class="text-decoration-none text-muted me-2">
+                        ${accountData.followersCount()} подписчиков
+                    </a>
+                    <a href="/account/following?id=${accountData.account().getId()}" class="text-decoration-none text-muted">
+                        ${accountData.followingCount()} подписок
+                    </a>
             </div>
-            <a href="/profile/edit" class="btn btn-outline-primary">Подписаться</a>
+            <c:if test="${!isPersonal}">
+                <c:choose>
+                    <c:when test="${isFollowing}">
+                        <form action="/account/subscribe?id=${accountData.account().getId()}" method="post" style="display: inline;">
+                            <input type="hidden" name="userId" value="${accountData.account().id}">
+                            <button type="submit" class="btn btn-outline-primary">Отписаться</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <form action="/account/subscribe?id=${accountData.account().getId()}" method="post" style="display: inline;">
+                            <input type="hidden" name="userId" value="${accountData.account().id}">
+                            <button type="submit" class="btn btn-primary">Подписаться</button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
         </div>
     </div>
 
