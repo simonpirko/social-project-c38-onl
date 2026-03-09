@@ -19,7 +19,22 @@ public class SubscribeDAO {
         return INSTANCE;
     }
 
-    public void save(int followerId, int followingId) {
+    public boolean isFollowing(Integer followerId, Integer followingId) {
+        String sql = "SELECT FROM subscriptions WHERE follower_id = ? AND following_id = ?";
+        try(Connection connection = PgConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, followerId);
+            preparedStatement.setInt(2, followingId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return (resultSet.next());
+        } catch (SQLException e) {
+            throw new RuntimeException("Error finding subscription", e);
+        }
+    }
+
+    public void save(Integer followerId, Integer followingId) {
         String sql = "INSERT INTO subscriptions(follower_id, following_id) VALUES (?,?)";
         try(Connection connection = PgConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
