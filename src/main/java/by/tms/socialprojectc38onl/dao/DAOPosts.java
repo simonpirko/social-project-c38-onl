@@ -52,7 +52,7 @@ public class DAOPosts {
     public Optional<Post> findById(Integer id) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT a.id AS post_id, a.created_at AS post_created_at, a.title, a.description, a.images, " +
+                    "SELECT p.id AS post_id, p.created_at AS post_created_at, p.title, p.description, p.images, " +
                             "acc.id AS account_id, acc.nickname, acc.email, " +
                             "c.id AS comment_id, c.created_at AS comment_created_at, c.text " +
                             "FROM posts a " +
