@@ -70,7 +70,14 @@
 
                     <div class="row align-items-center mt-2">
                         <form method="post" action="/post/like" class="w-auto row align-items-center mb-0" style="position: relative;">
-                            <button class="btn w-auto text-danger"><i class="bi bi-heart-fill fs-5"></i></button>
+                            <c:choose>
+                                <c:when test="${post.yourLike}">
+                                    <button class="btn w-auto text-danger"><i class="bi bi-heart-fill fs-5"></i></button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn w-auto"><i class="bi bi-heart-fill fs-5"></i></button>
+                                </c:otherwise>
+                            </c:choose>
                             <span class="ps-0 w-auto text-secondary">${post.likes_count}</span>
                         </form>
                         <div class="row text-secondary w-auto align-items-center">

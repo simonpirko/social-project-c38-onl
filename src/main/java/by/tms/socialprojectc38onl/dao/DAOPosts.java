@@ -100,7 +100,7 @@ public class DAOPosts {
     public List<Post> findAll(int accountID) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT a.*, p.*, count(pl.post_id) as likes_count, " +
+                    "SELECT a.id AS account_id, a.*,  p.id AS ppost_id, p.*, count(pl.post_id) as likes_count, " +
                             "CASE WHEN exists(SELECT 1 From post_likes pl2 WHERE pl2.post_id = p.id and pl2.account_id = ?)" +
                             "Then true else false end as is_liked " +
                             "FROM accounts a join posts p on a.id = p.account_id " +
@@ -119,7 +119,7 @@ public class DAOPosts {
                 account.setNickname(resultSet.getString("nickname"));
                 account.setEmail(resultSet.getString("email"));
 
-                post.setId(resultSet.getInt("id"));
+                post.setId(resultSet.getInt("ppost_id"));
                 post.setTitle(resultSet.getString("title"));
                 post.setDescription(resultSet.getString("description"));
                 post.setCreateAt(resultSet.getTimestamp("created_at"));
@@ -164,24 +164,26 @@ public class DAOPosts {
     public List<Post> findByTitle(String title, int accountID) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT \n" +
-                            "    a.*, \n" +
-                            "    p.*, \n" +
-                            "    COUNT(pl.post_id) AS likes_count,\n" +
-                            "    CASE \n" +
-                            "        WHEN EXISTS(\n" +
-                            "            SELECT 1 \n" +
-                            "            FROM post_likes pl2 \n" +
-                            "            WHERE pl2.post_id = p.id \n" +
-                            "            AND pl2.account_id = ?\n" +
-                            "        ) THEN true \n" +
-                            "        ELSE false \n" +
-                            "    END AS is_liked\n" +
-                            "FROM accounts a \n" +
-                            "JOIN posts p ON a.id = p.account_id \n" +
-                            "LEFT JOIN post_likes pl ON p.id = pl.post_id \n" +
-                            "WHERE p.title ILIKE '%' || ? || '%'  -- WHERE перед GROUP BY\n" +
-                            "GROUP BY a.id, p.id;" );
+                    "SELECT " +
+                            "    a.id AS account_id, " +
+                            "    a.*, " +
+                            "    p.id AS ppost_id, " +
+                            "    p.*, " +
+                            "    COUNT(pl.post_id) AS likes_count, " +
+                            "    CASE " +
+                            "        WHEN EXISTS( " +
+                            "            SELECT 1 " +
+                            "            FROM post_likes pl2 " +
+                            "            WHERE pl2.post_id = p.id " +
+                            "            AND pl2.account_id = ? " +
+                            "        ) THEN true " +
+                            "        ELSE false " +
+                            "    END AS is_liked " +
+                            "FROM accounts a " +
+                            "JOIN posts p ON a.id = p.account_id " +
+                            "LEFT JOIN post_likes pl ON p.id = pl.post_id " +
+                            "WHERE p.title ILIKE '%' || ? || '%' " +
+                            "GROUP BY a.id, p.id;");
             preparedStatement.setInt(1, accountID);
             preparedStatement.setString(2, title);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -195,7 +197,7 @@ public class DAOPosts {
                 account.setNickname(resultSet.getString("nickname"));
                 account.setEmail(resultSet.getString("email"));
 
-                post.setId(resultSet.getInt("id"));
+                post.setId(resultSet.getInt("ppost_id"));
                 post.setTitle(resultSet.getString("title"));
                 post.setDescription(resultSet.getString("description"));
                 post.setCreateAt(resultSet.getTimestamp("created_at"));

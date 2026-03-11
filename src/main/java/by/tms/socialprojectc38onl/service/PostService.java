@@ -37,7 +37,7 @@ public class PostService {
 
     public List<Post> findByTitle(String title, int accountID) {
         if (Objects.isNull(title) || title.isBlank()) {
-            return postDAO.findAll();
+            return postDAO.findAll(accountID);
         }
         return postDAO.findByTitle(title, accountID);
     }

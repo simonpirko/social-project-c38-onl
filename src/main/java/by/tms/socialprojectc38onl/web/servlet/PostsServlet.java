@@ -21,11 +21,12 @@ import java.util.List;
 @WebServlet("/")
 public class PostsServlet extends HttpServlet {
     private final PostService postsService = PostService.getInstance();
-
+    private final DAOAccounts daoAccounts = DAOAccounts.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
         String findParam = req.getParameter("search");
-        List<Post> posts = postsService.findByTitle(findParam);
+        List<Post> posts = postsService.findByTitle(findParam, daoAccounts.getCurrID(session));
 
         req.setAttribute("posts", posts);
         req.setAttribute("find", findParam);
