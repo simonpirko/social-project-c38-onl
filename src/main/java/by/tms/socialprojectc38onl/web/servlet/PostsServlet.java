@@ -16,41 +16,21 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet("/")
 public class PostsServlet extends HttpServlet {
-
     private final PostService postsService = PostService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        DAOAccounts daoAccounts = DAOAccounts.getInstance();
-        List<Post> posts;
-        posts = postsService.findAll(daoAccounts.getCurrID(session));
+        String findParam = req.getParameter("search");
+        List<Post> posts = postsService.findByTitle(findParam);
 
-        req.setAttribute("posts",posts);
-        req.getRequestDispatcher("/pages/index.jsp").forward(req, resp);
-    }
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        DAOAccounts daoAccounts = DAOAccounts.getInstance();
-        String find = req.getParameter("search");
-        if(find==null){
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        else{
-           List<Post> posts;
-           posts = postsService.findByTitle(find, daoAccounts.getCurrID(session));
-           if (posts==null || posts.isEmpty()){
-               req.setAttribute("find",find);
-               getServletContext().getRequestDispatcher("/pages/postsNotFound.jsp").forward(req, resp);
-           }
-           else {
-            req.setAttribute("posts",posts);
-            getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);}
-        }
+        req.setAttribute("posts", posts);
+        req.setAttribute("find", findParam);
+
+        req.setAttribute("posts", posts);
+        getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);
     }
 }

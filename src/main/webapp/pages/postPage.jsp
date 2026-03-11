@@ -59,7 +59,7 @@
                         <div class="col">
                             <h5 class="mb-1 fw-bold">${fn:escapeXml(post.title)}</h5>
                             <div class="d-flex align-items-center gap-2">
-                                <span class="text-secondary">Author ID: ${post.accountID}</span>
+                                <a href="/account/${post.account.id}" class="text-secondary text-decoration-none">${post.account.nickname}</a>
                                 <span class="badge bg-light text-dark border">${post.createAt}</span>
                                 <button class="btn btn-outline-primary btn-sm">Subsribe</button>
                             </div>
@@ -83,8 +83,11 @@
 
             <div class="border rounded-4 p-4 bg-white shadow-sm">
                 <h5 class="mb-3 fw-semibold">
-                    <i class="bi bi-chat-dots me-2"></i> Comments
+                    <i class="bi bi-chat-dots me-2"></i> Comments (${comments.size()})
                 </h5>
+                <c:forEach var="comment" items="${comments}">
+                    <%@ include file="../components/comment.jsp"%>
+                </c:forEach>
 
                 <form action="/posts/comments/add/${post.id}" method="post" class="border rounded-3 p-3 mb-3 bg-light">
                     <div class="row">

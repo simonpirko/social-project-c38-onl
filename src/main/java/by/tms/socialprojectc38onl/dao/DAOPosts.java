@@ -52,19 +52,31 @@ public class DAOPosts {
     public Optional<Post> findById(Integer id) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT a.id AS post_id, a.created_at AS post_created_at, a.title, a.description, a.images, c.id AS comment_id, c.created_at AS comment_created_at, c.text FROM posts a JOIN post_comments c ON a.id = c.post_id WHERE a.id = ?");
+                    "SELECT p.id AS post_id, p.created_at AS post_created_at, p.title, p.description, p.images, " +
+                            "acc.id AS account_id, acc.nickname, acc.email, " +
+                            "c.id AS comment_id, c.created_at AS comment_created_at, c.text " +
+                            "FROM posts p " +
+                            "LEFT JOIN post_comments c ON p.id = c.post_id  " +
+                            "JOIN accounts acc ON acc.id = p.account_id " +
+                            "WHERE p.id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 Post post = new Post();
+                Account account = new Account();
                 List<Comment> comments = new ArrayList<>();
+
+                account.setId(resultSet.getInt("account_id"));
+                account.setNickname(resultSet.getString("nickname"));
+                account.setEmail(resultSet.getString("email"));
 
                 post.setId(resultSet.getInt("post_id"));
                 post.setTitle(resultSet.getString("title"));
                 post.setDescription(resultSet.getString("description"));
                 post.setCreateAt(resultSet.getTimestamp("post_created_at"));
                 post.setImages(resultSet.getString("images"));
+                post.setAccount(account);
 
                 while (resultSet.next()) {
                     Comment comment = new Comment();
@@ -215,5 +227,4 @@ public class DAOPosts {
         }
         return 0;
     }
-
 }

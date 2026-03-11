@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/posts/create")
+@WebServlet("/post/create")
 public class CreatePostServlet extends HttpServlet {
     final PostService create = PostService.getInstance();
 
