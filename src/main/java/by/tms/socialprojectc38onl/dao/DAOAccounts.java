@@ -2,6 +2,8 @@ package by.tms.socialprojectc38onl.dao;
 
 import by.tms.socialprojectc38onl.PgConnection;
 import by.tms.socialprojectc38onl.models.Account;
+import by.tms.socialprojectc38onl.service.PostService;
+import jakarta.servlet.http.HttpSession;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,6 +39,7 @@ public class DAOAccounts {
             throw new RuntimeException(e);
         }
     }
+
     public Optional<Account> findById(Integer id) {
         if (Objects.isNull(id)) {
             return Optional.empty();
@@ -65,6 +68,7 @@ public class DAOAccounts {
             throw new RuntimeException(e);
         }
     }
+
     public Optional<Account> findByEmail(String email) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement
@@ -87,5 +91,16 @@ public class DAOAccounts {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int getCurrID(HttpSession session) {
+        Account account;
+        if (session != null) {
+            account = (Account) session.getAttribute("account");
+            if (account != null) {
+                return account.getId();}
+        }
+        else return -1;
+        return -1;
     }
 }

@@ -19,4 +19,6 @@ public class Post {
     private Account account;
     private String images;
     private List<Comment> comments;
+    private int likes_count;
+    private boolean yourLike;
 }

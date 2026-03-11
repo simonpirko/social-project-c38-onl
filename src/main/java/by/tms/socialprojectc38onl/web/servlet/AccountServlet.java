@@ -1,6 +1,7 @@
 package by.tms.socialprojectc38onl.web.servlet;
 
 import by.tms.socialprojectc38onl.dto.AccountDataDTO;
+import by.tms.socialprojectc38onl.models.Account;
 import by.tms.socialprojectc38onl.service.AccountService;
 import by.tms.socialprojectc38onl.service.SubscribeService;
 import jakarta.servlet.ServletException;
@@ -18,12 +19,13 @@ public class AccountServlet extends HttpServlet {
     private final SubscribeService subscribeService = SubscribeService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Account currentAccount = (Account) req.getSession().getAttribute("account");
         String pathInfo = req.getPathInfo();
-        int accountId = 0;
-
-        if (Objects.nonNull(pathInfo) && pathInfo.matches("/\\d+")) {
-            accountId = Integer.parseInt(pathInfo.substring(1));
-        }
+//        int accountId = 0;
+//
+//        if (Objects.nonNull(pathInfo) && pathInfo.matches("/\\d+")) {
+//            accountId = Integer.parseInt(pathInfo.substring(1));
+//        }
         Integer showingAccountId;
         Integer currentAccountId = currentAccount.getId();
         String accountId = req.getParameter("id");

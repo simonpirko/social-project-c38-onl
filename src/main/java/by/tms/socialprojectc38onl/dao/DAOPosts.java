@@ -97,10 +97,16 @@ public class DAOPosts {
         }
     }
 
-    public List<Post> findAll() {
+    public List<Post> findAll(int accountID) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM posts join accounts on accounts.id = posts.account_id");
+                    "SELECT a.id AS account_id, a.*,  p.id AS ppost_id, p.*, count(pl.post_id) as likes_count, " +
+                            "CASE WHEN exists(SELECT 1 From post_likes pl2 WHERE pl2.post_id = p.id and pl2.account_id = ?)" +
+                            "Then true else false end as is_liked " +
+                            "FROM accounts a join posts p on a.id = p.account_id " +
+                            "LEFT JOIN post_likes pl ON p.id = pl.post_id GROUP BY a.id, p.id;" );
+            preparedStatement.setInt(1, accountID);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Post> posts = new ArrayList<>();
             while (resultSet.next()) {
@@ -113,14 +119,15 @@ public class DAOPosts {
                 account.setNickname(resultSet.getString("nickname"));
                 account.setEmail(resultSet.getString("email"));
 
-                post.setId(resultSet.getInt("id"));
+                post.setId(resultSet.getInt("ppost_id"));
                 post.setTitle(resultSet.getString("title"));
                 post.setDescription(resultSet.getString("description"));
                 post.setCreateAt(resultSet.getTimestamp("created_at"));
                 post.setAccountID(resultSet.getInt("account_id"));
                 post.setImages(resultSet.getString("images"));
+                post.setLikes_count(resultSet.getInt("likes_count"));
+                post.setYourLike(resultSet.getBoolean("is_liked"));
                 post.setAccount(account);
-
                 posts.add(post);
             }
             return posts;
@@ -154,11 +161,31 @@ public class DAOPosts {
         return posts;
     }
 
-    public List<Post> findByTitle(String title) {
+    public List<Post> findByTitle(String title, int accountID) {
         try (Connection connection = PgConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM posts JOIN accounts ON accounts.id = posts.account_id WHERE title ILIKE '%' || ? || '%'");
-            preparedStatement.setString(1, title);
+                    "SELECT " +
+                            "    a.id AS account_id, " +
+                            "    a.*, " +
+                            "    p.id AS ppost_id, " +
+                            "    p.*, " +
+                            "    COUNT(pl.post_id) AS likes_count, " +
+                            "    CASE " +
+                            "        WHEN EXISTS( " +
+                            "            SELECT 1 " +
+                            "            FROM post_likes pl2 " +
+                            "            WHERE pl2.post_id = p.id " +
+                            "            AND pl2.account_id = ? " +
+                            "        ) THEN true " +
+                            "        ELSE false " +
+                            "    END AS is_liked " +
+                            "FROM accounts a " +
+                            "JOIN posts p ON a.id = p.account_id " +
+                            "LEFT JOIN post_likes pl ON p.id = pl.post_id " +
+                            "WHERE p.title ILIKE '%' || ? || '%' " +
+                            "GROUP BY a.id, p.id;");
+            preparedStatement.setInt(1, accountID);
+            preparedStatement.setString(2, title);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Post> posts = new ArrayList<>();
             while (resultSet.next()) {
@@ -170,14 +197,15 @@ public class DAOPosts {
                 account.setNickname(resultSet.getString("nickname"));
                 account.setEmail(resultSet.getString("email"));
 
-                post.setId(resultSet.getInt("id"));
+                post.setId(resultSet.getInt("ppost_id"));
                 post.setTitle(resultSet.getString("title"));
                 post.setDescription(resultSet.getString("description"));
                 post.setCreateAt(resultSet.getTimestamp("created_at"));
                 post.setAccountID(resultSet.getInt("account_id"));
                 post.setImages(resultSet.getString("images"));
+                post.setLikes_count(resultSet.getInt("likes_count"));
+                post.setYourLike(resultSet.getBoolean("is_liked"));
                 post.setAccount(account);
-
                 posts.add(post);
             }
 
